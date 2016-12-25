@@ -4,6 +4,7 @@
 #
 
 import psycopg2
+import bleach
 
 
 def connect():
@@ -13,14 +14,33 @@ def connect():
 
 def deleteMatches():
     """Remove all the match records from the database."""
+    con = connect()
+    cursor = con.cursor()
+    query = "DELETE FROM matches"
+    cursor.execute(query)
+    con.commit()
+    con.close()
 
 
 def deletePlayers():
     """Remove all the player records from the database."""
+    con = connect()
+    cursor = con.cursor()
+    query = "DELETE FROM players"
+    cursor.execute(query)
+    con.commit()
+    con.close()
 
 
 def countPlayers():
     """Returns the number of players currently registered."""
+    con = connect()
+    cursor = con.cursor()
+    query = "SELECT count(*) FROM players"
+    cursor.execute(query)
+    player_count = cursor.fetchall()
+    con.close()
+    return player_count
 
 
 def registerPlayer(name):
@@ -32,6 +52,11 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    con = connect()
+    cursor = con.cursor()
+    bleach_name = bleach.clean(name, strip=TRUE)
+    curosor.execute("INSERT INTO players (player_name) VALUES (%s)", (bleach_name, ))
+
 
 
 def playerStandings():
