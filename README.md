@@ -15,8 +15,7 @@ The goal here is to create a simple tournament results database that uses a swis
 	e. reportMatch(winner, loser) - Stores the outcome of a single match between two players in the database.
 	f. playerStanding() - Returns a list of (id, name, wins, matches) for each player, sorted by the number of wins each player has.
 	g. swissParing() - Given the existing set of registered players and the matches they have played, generates and returns a list of pairings according to the Swiss system. Each pairing is a tuple (id1, name1, id2, name2), giving the ID and name of the paired players.
-
-Code conforms to the Python Style Guide (PEP8)
+	
 
 <h3>Running the project</h3>
 1. Install Python if necessary.
