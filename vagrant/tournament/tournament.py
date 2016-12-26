@@ -16,7 +16,7 @@ def deleteMatches():
     """Remove all the match records from the database."""
     con = connect()
     cursor = con.cursor()
-    query = "DELETE FROM matches"
+    query = "DELETE FROM matches;"
     cursor.execute(query)
     con.commit()
     con.close()
@@ -26,7 +26,7 @@ def deletePlayers():
     """Remove all the player records from the database."""
     con = connect()
     cursor = con.cursor()
-    query = "DELETE FROM players"
+    query = "DELETE FROM players;"
     cursor.execute(query)
     con.commit()
     con.close()
@@ -36,9 +36,9 @@ def countPlayers():
     """Returns the number of players currently registered."""
     con = connect()
     cursor = con.cursor()
-    query = "SELECT count(*) FROM players"
+    query = "SELECT count(*) FROM players;"
     cursor.execute(query)
-    player_count = cursor.fetchall()
+    player_count = cursor.fetchone()[0]
     con.close()
     return player_count
 
@@ -54,8 +54,10 @@ def registerPlayer(name):
     """
     con = connect()
     cursor = con.cursor()
-    bleach_name = bleach.clean(name, strip=TRUE)
-    curosor.execute("INSERT INTO players (player_name) VALUES (%s)", (bleach_name, ))
+    bleach_name = bleach.clean(name)
+    cursor.execute("INSERT INTO players (name) VALUES (%s)", (bleach_name, ))
+    con.commit()
+    con.close()
 
 
 
@@ -71,7 +73,20 @@ def playerStandings():
         name: the player's full name (as registered)
         wins: the number of matches the player has won
         matches: the number of matches the player has played
+
+    standing table contains columns:
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++
+        + player id | player name | win count | match count +
+        +++++++++++++++++++++++++++++++++++++++++++++++++++++
     """
+    con = connect()
+    cursor = con.cursor()
+    query = "SELECT * from results"
+    cursor.execute(query)
+    standing_result = cursor.fetchall()
+    con.close()
+    return standings
+
 
 
 def reportMatch(winner, loser):
@@ -81,6 +96,19 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    con = connect()
+    cursor = con.cursor()
+    bleached_winner = bleach.clean(winner)
+    bleached_loser = bleach.clean(loser)
+
+    if isinstance(bleached_winner, (int, long, float)) and isinstance(bleached_loser, (int, long, float)):
+        cursor.execute("INSERT INTO matches (winner_id, loser_id) VALUES (%s, %s)", (bleached_winner ,) (bleached_loser ,))
+        con.commit()
+    else:
+        return "please enter integers for winner and loser ids"
+
+    con.close()
+
  
  
 def swissPairings():
@@ -98,5 +126,21 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    con = connect()
+    cursor = con.cursor()
+    query = "SELECT * from results"
+    cursor.execute(query)
+    standing_result = cursor.fetchall()
+    # use pairs array to store tuple
+    pairs = []
+    standing_length = len(standing_result)
 
+    # loop through every other row in standing_result
+    # append id and name of players in current and +1 position within loop 
 
+    for x in (0, standing_length-1, 2):
+        pairing = (standing_result[x][0], standing_result[x][1], standing_result[x+1][0], standing_result[x+1][1])
+        pairs.append(pairing)
+
+    con.close()
+    return pairs
