@@ -18,8 +18,6 @@ The goal here is to create a simple tournament results database that uses a swis
 <li>swissParing() - Given the existing set of registered players and the matches they have played, generates and returns a list of pairings according to the Swiss system. Each pairing is a tuple (id1, name1, id2, name2), giving the ID and name of the paired players.</li>
 </ol>
 
-Code conforms to the Python Style Guide (PEP8)
-
 <h3>Running the project</h3>
 1. Install Python if necessary.
 2. Install Vagrant and VirtualBox.
