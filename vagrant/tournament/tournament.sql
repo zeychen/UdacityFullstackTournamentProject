@@ -13,7 +13,7 @@ DROP DATABASE IF EXISTS tournament;
 CREATE DATABASE tournament;
 
 /* connect to tournament databse */
-\connect tournamnet;
+\c tournament;
 
 /* create players table to keep track of players
 	1. assigns unique id for each player
@@ -30,7 +30,7 @@ CREATE TABLE players (
 CREATE TABLE matches (
 	match serial PRIMARY KEY,
 	winner_id integer REFERENCES players(id),
-	loser_id integer REFERENCES players(id),
+	loser_id integer REFERENCES players(id)
 );
 
 /* create view that displays player ranking in descending order using subquery
@@ -45,7 +45,7 @@ CREATE TABLE matches (
 CREATE VIEW results as
 SELECT players.id, players.name,
 -- count number of wins for each player
-(SELECT count(*) FROM matches, players WHERE winner_id = players.id) as WinCount, 
+(SELECT count(*) FROM matches WHERE matches.winner_id = players.id) as WinCount, 
 -- count number of matches for each player
 (SELECT count(*) FROM matches WHERE players.id in (winner_id, loser_id)) as MatchCount
 FROM players
