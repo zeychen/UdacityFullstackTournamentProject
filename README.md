@@ -27,3 +27,5 @@ Code conforms to the Python Style Guide (PEP8)
 6. Access VM by 'vagrant ssh'
 7. Start psql -> type '\i tournament.sql' -> type '\q'
 9. Type 'python tournament_test.py'
+
+NOTE: The same tournament files are present in root folder in case user already have vagrant set up and want to test the files.
