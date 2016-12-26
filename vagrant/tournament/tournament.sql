@@ -43,7 +43,7 @@ CREATE TABLE matches (
 		+++++++++++++++++++++++++++++++++++++++++++++++++++++
 	*/
 CREATE VIEW results as
-SELECT players.id, players.name,
+SELECT players.id as result_id, players.name as result_name,
 -- count number of wins for each player
 (SELECT count(*) FROM matches WHERE matches.winner_id = players.id) as WinCount, 
 -- count number of matches for each player
