@@ -23,8 +23,8 @@ Code conforms to the Python Style Guide (PEP8)
 <h3>Running the project</h3>
 1. Install Python if necessary.
 2. Install Vagrant and VirtualBox.
-3. Clone <a href="https://github.com/udacity/fullstack-nanodegree-vm">fullstack-nanodegree-vm repository</a> to local machine.
-4. Navigate to fullstack-nanodegree-vm repository folder
+3. Clone repository to local machine.
+4. Navigate to vagrant/tournament folder
 5. Launch Vagrant VM by 'vagrant up'
 6. Access VM by 'vagrant ssh'
 7. Start psql -> type '\i tournament.sql' -> type '\q'
