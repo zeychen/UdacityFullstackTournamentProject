@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# 
+#
 # tournament.py -- implementation of a Swiss-system tournament
 #
 
@@ -60,7 +60,6 @@ def registerPlayer(name):
     con.close()
 
 
-
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
 
@@ -98,19 +97,11 @@ def reportMatch(winner, loser):
     """
     con = connect()
     cursor = con.cursor()
-    # bleached_winner = bleach.clean(winner)
-    # bleached_loser = bleach.clean(loser)
     cursor.execute("INSERT INTO matches (winner_id, loser_id) VALUES (%s, %s)", (winner, loser))
-    # if isinstance(bleached_winner, (int, long, float)) and isinstance(bleached_loser, (int, long, float)):
-    #     cursor.execute("INSERT INTO matches (winner_id, loser_id) VALUES (%s, %s)", (bleached_winner ,) (bleached_loser ,))
-    #     con.commit()
-    # else:
-    #     return "please enter integers for winner and loser ids"
     con.commit()
     con.close()
 
- 
- 
+
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
   
