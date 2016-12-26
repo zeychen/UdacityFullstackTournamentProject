@@ -85,7 +85,7 @@ def playerStandings():
     cursor.execute(query)
     standing_result = cursor.fetchall()
     con.close()
-    return standings
+    return standing_result
 
 
 
@@ -98,15 +98,15 @@ def reportMatch(winner, loser):
     """
     con = connect()
     cursor = con.cursor()
-    bleached_winner = bleach.clean(winner)
-    bleached_loser = bleach.clean(loser)
-
-    if isinstance(bleached_winner, (int, long, float)) and isinstance(bleached_loser, (int, long, float)):
-        cursor.execute("INSERT INTO matches (winner_id, loser_id) VALUES (%s, %s)", (bleached_winner ,) (bleached_loser ,))
-        con.commit()
-    else:
-        return "please enter integers for winner and loser ids"
-
+    # bleached_winner = bleach.clean(winner)
+    # bleached_loser = bleach.clean(loser)
+    cursor.execute("INSERT INTO matches (winner_id, loser_id) VALUES (%s, %s)", (winner, loser))
+    # if isinstance(bleached_winner, (int, long, float)) and isinstance(bleached_loser, (int, long, float)):
+    #     cursor.execute("INSERT INTO matches (winner_id, loser_id) VALUES (%s, %s)", (bleached_winner ,) (bleached_loser ,))
+    #     con.commit()
+    # else:
+    #     return "please enter integers for winner and loser ids"
+    con.commit()
     con.close()
 
  
@@ -128,19 +128,21 @@ def swissPairings():
     """
     con = connect()
     cursor = con.cursor()
-    query = "SELECT * from results"
+    query = "SELECT result_id, result_name from results"
     cursor.execute(query)
     standing_result = cursor.fetchall()
     # use pairs array to store tuple
     pairs = []
-    standing_length = len(standing_result)
+    standing_length = int(countPlayers())
 
     # loop through every other row in standing_result
     # append id and name of players in current and +1 position within loop 
 
-    for x in (0, standing_length-1, 2):
-        pairing = (standing_result[x][0], standing_result[x][1], standing_result[x+1][0], standing_result[x+1][1])
-        pairs.append(pairing)
+    if (standing_length > 0):
+        for x in range(standing_length):
+            if (x%2 == 0):
+                pairing = (standing_result[x][0], standing_result[x][1], standing_result[x+1][0], standing_result[x+1][1])
+                pairs.append(pairing)
 
     con.close()
     return pairs
